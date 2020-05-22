@@ -1,7 +1,7 @@
 //index.js
 const mqtt = require('../../utils/mqtt');
 const base64 = require('../../utils/base64');
-import { host } from '../../config.json';
+import { host } from '../../config.js';
 
 //获取应用实例
 const app = getApp()
@@ -19,7 +19,7 @@ Page({
       connectTimeout: 4000,
       clientId: 'esp32_led',
     };
-    const client = mqtt.connect(`wx://${host}/mqtt`, options);
+    const client = mqtt.connect(`wx://${host}:8083/mqtt`, options);
     client.on('reconnect', (error) => {
       console.log('正在重连:', error)
     });
@@ -53,7 +53,7 @@ Page({
     let auth = base64.encode("admin:public"); // base auth
     wx.request({
       header: { 'Authorization': 'Basic ' + auth },
-      url: `http://${host}/api/v4/clients`,
+      url: `http://${host}:18083/api/v4/clients`,
       success: function (res) {
         console.info('-----', res);
       }
